@@ -55,7 +55,7 @@ while True:
     log.info("{} stake amount is {}.".format(ACCOUNTID, STAKE_AMOUNT))
     MODIFY_STAKE_AMOUNT = (VALIDATOR_NEXT_PRICE * RATE) + (100 * RATE) - STAKE_AMOUNT
     log.info("MODIFY_STAKE_AMOUNT: {}".format(MODIFY_STAKE_AMOUNT))
-    MODIFY_UNSTAKE_AMOUNT = STAKE_AMOUNT - (VALIDATOR_NEXT_PRICE * RATE) + (100 * RATE)
+    MODIFY_UNSTAKE_AMOUNT = STAKE_AMOUNT - (VALIDATOR_NEXT_PRICE * RATE) - (100 * RATE)
     log.info("MODIFY_UNSTAKE_AMOUNT: {}".format(MODIFY_UNSTAKE_AMOUNT))
     PING = """near call {} ping '{{}}' --accountId {}""".format(CONTRACTID, ACCOUNTID)
 
