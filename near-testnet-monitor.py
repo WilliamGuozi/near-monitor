@@ -94,6 +94,31 @@ def send_to_graphite(host, path, metric, prefix):
         log.error("{}".format(e))
 
 
+def send_to_slack(color, message):
+    '''color: good warning danger'''
+    slack_web_hook = "https://hooks.slack.com/XXXXXXXXXXXXXXXXXXXXXXXXXX"
+    near_web = "https://explorer.{}.near.org/accounts/{}".format(NET, ACCOUNTID)
+    ts = time.time()
+    send_message = """curl -s -X POST -H 'Content-type: application/json' --data \
+    '{
+        "attachments": [
+            {
+                "color": "%s",
+                "title": "near explore web url",
+                "title_link": "%s",
+                "text": "%s",
+                "image_url": "http://my-website.com/path/to/image.jpg",
+                "thumb_url": "http://example.com/path/to/thumb.png",
+                "footer": "Slack API",
+                "footer_icon": "https://platform.slack-edge.com/img/default_application_icon.png",
+                "ts": '%s'
+            }
+        ]
+    }' %s""" % (color, near_web, message, ts, slack_web_hook)
+    RECODE, OUTPUT = commands.getstatusoutput(send_message)
+    log.info("{} RECODE: {}, OUTPUT: {}.".format(send_to_slack.__name__, RECODE, OUTPUT))
+
+
 if __name__ == "__main__":
     ALERT_STATUS = False
     hostname = socket.gethostname()
@@ -118,17 +143,21 @@ if __name__ == "__main__":
         metric_list['ACCOUNT_TOTAL_BALANCE'] = ACCOUNT_TOTAL_BALANCE
         metric_list['ACCOUNT_STAKED_BALANCE'] = ACCOUNT_STAKED_BALANCE
 
+        message_error = "{} Hey <@Sack_UserID>, Near will not be a validator in next epoch.".format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        message_ok = "{} Hey <@Sack_UserID>, Near will be a validator in next epoch.".format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         RECODE, OUTPUT = get_next_epoch_validator_status()
         VALIDATOR_STATUS = 0
         if OUTPUT == 'Kicked' or RECODE != 0 or OUTPUT == '':
             VALIDATOR_STATUS = -1
             if ALERT_STATUS is False:
+                send_to_slack('danger', message_error)
                 ping_contract()
                 ping_contract(MONITOR_API_URL)
                 ALERT_STATUS = True
         elif OUTPUT == 'New':
             VALIDATOR_STATUS = 1
             if ALERT_STATUS is True:
+                send_to_slack('good', message_ok)
                 ALERT_STATUS = False
         elif OUTPUT == 'Rewarded':
             VALIDATOR_STATUS = 0

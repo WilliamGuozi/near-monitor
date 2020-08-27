@@ -11,7 +11,7 @@ pip install colorlog graphyte
 # Testnet Monitor
 
 ## Run command
-> near-testnet-monitor.py 中一个参数要根据你的实际情况赋值 目标 graphite 服务器地址 `target_server`
+> near-testnet-monitor.py 中一个参数要根据你的实际情况赋值 目标 graphite 服务器地址 `target_server` slack web 接口地址 `slack_web_hook`
 ```
 nohup /root/near-daemon.sh testnet >> near-daemon.log 2>&1 &
 ```
@@ -42,6 +42,8 @@ nohup /root/near-daemon.sh testnet >> near-daemon.log 2>&1 &
 >数据发送至graphite后可以参考 我的博客文章<https://www.cnblogs.com/William-Guozi/p/grafana-monitor.html> 组建和呈现监控
 
 ![img-w500](/images/202008260418.png)
+
+![img-w500](/images/202008271431.png)
 
 
 
