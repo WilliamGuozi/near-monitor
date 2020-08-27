@@ -13,7 +13,7 @@ pip install colorlog graphyte
 ## Run command
 > near-testnet-monitor.py 中一个参数要根据你的实际情况赋值 目标 graphite 服务器地址 `target_server` slack web 接口地址 `slack_web_hook`
 ```
-nohup /root/near-daemon.sh testnet >> near-daemon.log 2>&1 &
+nohup $(pwd)/near-daemon.sh testnet >> near-daemon.log 2>&1 &
 ```
 
 ## log
@@ -50,7 +50,7 @@ nohup /root/near-daemon.sh testnet >> near-daemon.log 2>&1 &
 # Betanet Challenge
 ## Run command
 ```
-nohup /root/near-daemon.sh betanet>> near-daemon.log 2>&1 &
+nohup $(pwd)/near-daemon.sh betanet>> near-daemon.log 2>&1 &
 ```
 
 
