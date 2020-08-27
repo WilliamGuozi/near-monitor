@@ -43,7 +43,7 @@ nohup $(pwd)/near-daemon.sh testnet >> near-daemon.log 2>&1 &
 
 ![img-w500](/images/202008260418.png)
 
-![img-w500](/images/202008271431.png)
+![img-w250](/images/202008271431.png)
 
 
 
